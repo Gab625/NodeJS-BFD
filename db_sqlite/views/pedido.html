@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>Pedido</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2 class="text-center mb-4" id="num-pedido">ITENS DO PEDIDO N&ordm; 1111</h2>
+
+        <div>
+            <!-- Cabeçalho -->
+            <div class="row g-0" style="font-weight: bold">
+                <div class="col-1 text-center">CD_PROD</div>
+                <div class="col-4">DESC_PROD</div>
+                <div class="col-1 text-center">UNID_PROD</div>
+                <div class="col-2 text-center">QTD_PED</div>
+                <div class="col-2 text-right">VAL_UNIT</div>
+                <div class="col-2 text-right">VAL_TOTAL</div>
+            </div>
+            <div id="items-pedido">
+                <!-- Linha 1 -->
+                <div class="row g-0">
+                    <div class="col-1 text-center">100</div>
+                    <div class="col-4">CHAPA DE ACO 2.5</div>
+                    <div class="col-1 text-center">KG</div>
+                    <div class="col-2 text-center">100</div>
+                    <div class="col-2 text-right">R$ 2,50</div>
+                    <div class="col-2 text-right">R$ 250,00</div>
+                </div>
+
+                <!-- Linha 2 -->
+                <div class="row g-0 linha">
+                    <div class="col-1 text-center">200</div>
+                    <div class="col-4">CIMENTO</div>
+                    <div class="col-1 text-center">KG</div>
+                    <div class="col-2 text-center">100</div>
+                    <div class="col-2 text-right">R$ 4,50</div>
+                    <div class="col-2 text-right">R$ 450,00</div>
+                </div>
+
+                <!-- Linha 3 -->
+                <div class="row g-0 linha">
+                    <div class="col-1 text-center">300</div>
+                    <div class="col-4">PARAFUSO 3.0X10.5MM</div>
+                    <div class="col-1 text-center">KG</div>
+                    <div class="col-2 text-center">200</div>
+                    <div class="col-2 text-right">R$ 2,00</div>
+                    <div class="col-2 text-right">R$ 400,00</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- Total -->
+            <div class="row g-0" style="font-weight: bold">
+                <div class="col-10 text-right" style="padding-right: 20px;">TOTAL DO PEDIDO:</div>
+                <div class="col-2 text-right" id="total-pedido">R$ 1100,00</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
