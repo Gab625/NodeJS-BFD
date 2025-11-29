@@ -30,10 +30,16 @@ app.get("/pedidos", (req, res) => {
     rows.forEach((pedido) => {
       tabelaCorpo.append(`
 <tr>
-<th>${pedido.NUM_PED}</th>
+<th><a href=pedido/${pedido.NUM_PED}>${pedido.NUM_PED}</a></th>
 <td>${pedido.PRAZO_ENTR}</td>
 <td>${pedido.CD_CLI}</td>
 <td>${pedido.CD_VEND}</td>
+<td>
+        <form id="deleteForm">
+        <input type="hidden" name="codigo" value="${pedido.NUM_PED}">
+        <button type="submit">Remover</button>
+        </form>
+</td>
 </tr>`);
     });
 
@@ -61,19 +67,46 @@ app.get("/pedido/:id", (req, res, next) => {
 
     rows.forEach((pedido) => {
       tabelaCorpo.append(`
-<div class="row g-0 linha">
-                    <div class="col-1 text-center">${pedido.CD_PROD}</div>
-                    <div class="col-4">${pedido.DESC_PROD}</div>
-                    <div class="col-1 text-center">${pedido.UNID_PROD}</div>
-                    <div class="col-2 text-center">${pedido.QTD_PED}</div>
-                    <div class="col-2 text-right">${pedido.VAL_UNIT}</div>
-                    <div class="col-2 text-right">${
-                      pedido.VAL_UNIT * pedido.QTD_PED
-                    }</div>
-                </div>`);
+                    <div class="row g-0 linha">
+                      <div class="col-1 text-center">${pedido.CD_PROD}</div>
+                      <div class="col-4">${pedido.DESC_PROD}</div>
+                      <div class="col-1 text-center">${pedido.UNID_PROD}</div>
+                      <div class="col-2 text-center">${pedido.QTD_PED}</div>
+                      <div class="col-2 text-right">${pedido.VAL_UNIT}</div>
+                      <div class="col-2 text-right">${
+                        pedido.VAL_UNIT * pedido.QTD_PED
+                      }</div>
+                  </div>
+                  `);
     });
 
     res.send(cheerioLoad.html());
+  });
+});
+
+app.delete("/pedidos/:id", (req, res, next) => {
+  const id = req.params.id;
+  console.log("ID: " + req.params.id);
+
+  const sql_pedido = "DELETE FROM PEDIDO WHERE NUM_PED = ?;";
+
+  const sql_item_pedido = "DELETE FROM ITEM_PEDIDO WHERE NO_PED = ?;";
+
+  db.run(sql_pedido, [id], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    db.run(sql_item_pedido, [id], (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+
+      res.status(200);
+      res.send();
+    });
   });
 });
 // Servidor
