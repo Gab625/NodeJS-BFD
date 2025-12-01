@@ -23,22 +23,23 @@ app.get("/pedidos", (req, res) => {
       return;
     }
 
-    const htmlBase = fs.readFileSync("./views/pedidos.html");
+    const htmlBase = fs.readFileSync("./views/pedidos.html", "utf-8");
     const cheerioLoad = cheerio.load(htmlBase);
 
     const tabelaCorpo = cheerioLoad("#tabela-corpo");
     rows.forEach((pedido) => {
       tabelaCorpo.append(`
 <tr>
-<th><a href=pedido/${pedido.NUM_PED}>${pedido.NUM_PED}</a></th>
+<th><a href="/pedido/${pedido.NUM_PED}">${pedido.NUM_PED}</a></th>
 <td>${pedido.PRAZO_ENTR}</td>
 <td>${pedido.CD_CLI}</td>
 <td>${pedido.CD_VEND}</td>
 <td>
-        <form id="deleteForm">
-        <input type="hidden" name="codigo" value="${pedido.NUM_PED}">
-        <button type="submit">Remover</button>
-        </form>
+        <form class="deleteForm">
+    <input type="hidden" name="codigo" value="${pedido.NUM_PED}">
+    <button type="submit">Remover</button>
+</form>
+
 </td>
 </tr>`);
     });
@@ -60,7 +61,7 @@ app.get("/pedido/:id", (req, res, next) => {
       return;
     }
 
-    const htmlBase = fs.readFileSync("./views/pedido.html");
+    const htmlBase = fs.readFileSync("./views/pedido.html", "utf-8");
     const cheerioLoad = cheerio.load(htmlBase);
     const tabelaCorpo = cheerioLoad("#items-pedido");
     tabelaCorpo.empty();
@@ -86,7 +87,6 @@ app.get("/pedido/:id", (req, res, next) => {
 
 app.delete("/pedidos/:id", (req, res, next) => {
   const id = req.params.id;
-  console.log("ID: " + req.params.id);
 
   const sql_pedido = "DELETE FROM PEDIDO WHERE NUM_PED = ?;";
 

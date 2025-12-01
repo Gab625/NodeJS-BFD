@@ -59,19 +59,7 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById("deleteForm").addEventListener("submit",function(e){
-            e.preventDefault()
-
-            const codigo = this.codigo.value
-
-            fetch(`./pedido/${codigo}`,{method:"DELETE"})
-            .then(res=>{if(res.ok){alert("Pedido removido com sucesso")
-                window.location.reload(true)}
-            else{alert("Erro ao remover")}})
-        .catch(err => console.error(err))
-        })
-    </script>
+    
 </body>
 
 </html>

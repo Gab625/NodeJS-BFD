@@ -30,5 +30,26 @@
         </tr>
       </tfoot>
     </table>
+
+    <script>
+      document.addEventListener("submit", function (e) {
+        if (e.target.classList.contains("deleteForm")) {
+          e.preventDefault();
+
+          const codigo = e.target.codigo.value;
+
+          fetch(`/pedidos/${codigo}`, { method: "DELETE" })
+            .then((res) => {
+              if (res.ok) {
+                alert("Pedido removido com sucesso");
+                window.location.reload();
+              } else {
+                alert("Erro ao remover");
+              }
+            })
+            .catch((err) => console.error(err));
+        }
+      });
+    </script>
   </body>
 </html>
