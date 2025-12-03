@@ -7,6 +7,10 @@ const cheerio = require("cheerio");
 const { json } = require("stream/consumers");
 const { error } = require("console");
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
 const db = new sqlite3.Database("./bd.sqlite", (err) => {
   if (err) console.error(err.message);
 
@@ -35,10 +39,10 @@ app.get("/pedidos", (req, res) => {
 <td>${pedido.CD_CLI}</td>
 <td>${pedido.CD_VEND}</td>
 <td>
-        <form class="deleteForm">
-    <input type="hidden" name="codigo" value="${pedido.NUM_PED}">
-    <button type="submit">Remover</button>
-</form>
+    <form class="deleteForm">
+      <input type="hidden" name="codigo" value="${pedido.NUM_PED}">
+      <button type="submit">Remover</button>
+    </form>
 
 </td>
 </tr>`);
@@ -107,6 +111,28 @@ app.delete("/pedidos/:id", (req, res, next) => {
       res.status(200);
       res.send();
     });
+  });
+});
+
+app.post("/pedido", (req, res, next) => {
+  const numPed = req.body.num_ped;
+  const prazoEntrega = req.body.prazo_entr;
+  const codCli = req.body.cd_cli;
+  const codVend = req.body.cd_vend;
+
+  const sql =
+    "INSERT INTO PEDIDO (num_ped, prazo_entr, cd_cli, cd_vend) VALUES (?,?,?,?)";
+
+  db.all(sql, [numPed, prazoEntrega, codCli, codVend], (err) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.status(200);
+    res.send(
+      "<h1>Pedido Inserido !</h1><p><a href='./pedidos'>Listar Pedidos</a></p>"
+    );
   });
 });
 // Servidor
